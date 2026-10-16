@@ -19,7 +19,7 @@ the [releases](https://github.com/markspan/AlakazamRESS/releases), or one built 
 to this repository. The tool appears on the Tools tab, as it did before.
 
 It needs an Alakazam that no longer carries `RESS` itself (newer than
-V0.4.5.2). Workspaces and templates made with the built-in tool open and
+V0.4.5.3; until the next release, the Development branch). Workspaces and templates made with the built-in tool open and
 recalculate as before once the plugin is installed; Alakazam offers to
 install it when one needs it.
 
