@@ -44,8 +44,11 @@ function options = RESSDialog(EEG, stored)
     [accentColor, bgColor] = dialogChromeColors();
     fig = uifigure('Name', 'RESS', 'Position', fitOnScreen([120 120 760 560]), 'Color', bgColor);
     root = uigridlayout(fig, [2 1], 'RowHeight', {40, '1x'}, 'Padding', [0 0 0 0], 'RowSpacing', 0);
-    uilabel(root, 'Text', '  Rhythmic entrainment source separation', 'FontSize', 14, 'FontWeight', 'bold', ...
+    titleBar = uilabel(root, 'Text', '  Rhythmic entrainment source separation', 'FontSize', 14, 'FontWeight', 'bold', ...
         'FontColor', [1 1 1], 'BackgroundColor', accentColor, 'VerticalAlignment', 'center');
+    if exist('manualButton', 'file') == 2   % the ? to the manual; not in an older Alakazam
+        manualButton(titleBar, 'RESS');
+    end
     outer = uigridlayout(root, [6 1], 'RowHeight', {'fit', '1x', 'fit', 'fit', 'fit', 44});
 
     uilabel(outer, 'WordWrap', 'on', 'Text', [ ...
