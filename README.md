@@ -18,8 +18,10 @@ the [releases](https://github.com/markspan/AlakazamRESS/releases), or one built 
 `build`, installs the same way through **From a link**, and so does the link
 to this repository. The tool appears on the Tools tab, as it did before.
 
-It needs Alakazam V0.4.5.4 or newer, the first without `RESS` built
-in. Workspaces and templates made with the built-in tool open and
+It needs an Alakazam release newer than V0.4.7.2: it asks
+`TransTools.IsComboBin` which bins are combinations, rather than keeping its
+own copy of that definition. (V0.4.5.4 was the first without `RESS` built
+in.) Workspaces and templates made with the built-in tool open and
 recalculate as before once the plugin is installed; Alakazam offers to
 install it when one needs it.
 

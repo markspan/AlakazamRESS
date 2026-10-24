@@ -28,10 +28,7 @@ function plan = RESSPlan(EEG, options)
         fail('RESS builds each filter from the trials of named bins, and this dataset has no bins.');
     end
     binLabels = cellstr(string({EEG.bindesc.label}));
-    isOrdinary = true(1, numel(EEG.bindesc));
-    if isfield(EEG.bindesc, 'combo')
-        isOrdinary = cellfun(@isempty, {EEG.bindesc.combo});
-    end
+    isOrdinary = ~TransTools.IsComboBin(EEG.bindesc);
 
     plan.filter = struct( ...
         'PeakFWHM', number(options, 'peakFWHM', 0.5, 'The width at the stimulation frequency'), ...
@@ -134,7 +131,11 @@ function plan = RESSPlan(EEG, options)
         % the 30 Hz control, 4 to 10 the peripheral 60 Hz), and Apply to All
         % must not lose the rest of the branch over it. RESS leaves that
         % component's channel empty instead.
-        trials = unique([EEG.bindesc(idx).trials]);
+        % Through TransTools.BinTrials, which reads the bins wherever this
+        % Alakazam keeps them (on the trials, since 2026-10-24).
+        members = arrayfun(@(b) reshape(TransTools.BinTrials(EEG, b), 1, []), idx, ...
+            'UniformOutput', false);
+        trials = unique([zeros(1, 0), members{:}]);
         plan.rows(end + 1) = struct('label', label, 'freq', freq, 'bins', {binLabels(idx)}, 'trials', trials);
     end
 end

@@ -273,6 +273,24 @@ classdef RESSTest < matlab.unittest.TestCase
             testCase.verifyError(@() RESS(continuous, RESSTest.options()), 'Alakazam:RESS');
         end
 
+        function aCombinationBinBuildsNoFilter(testCase)
+        %ACOMBINATIONBINBUILDSNOFILTER  A combination bin has no trials of
+        %   its own (TransTools.IsComboBin): naming it is refused, and a row
+        %   left blank, every ordinary bin, pools the others without it.
+            EEG = RESSTest.recording();
+            EEG.bindesc(end + 1) = struct('label', 'RIFT 60 minus 64', 'trials', [], ...
+                'combo', struct('bin', {1, 3}, 'coeff', {1, -1}));
+            named = RESSTest.options();
+            named.rows{1}.bins = 'RIFT 60 minus 64';
+            testCase.verifyError(@() RESSPlan(EEG, named), 'Alakazam:RESS');
+
+            blank = RESSTest.options();
+            blank.rows{1}.bins = '';
+            plan = RESSPlan(EEG, blank);
+            testCase.verifyEqual(plan.rows(1).bins, ...
+                {'RIFT 60Hz', 'RIFT 60Hz peripheral', 'RIFT 64Hz', 'SSVEP 30Hz'});
+        end
+
         function aBinLabelNamesItsFrequency(testCase)
             testCase.verifyEqual(TransTools.FrequencyFromLabel({'RIFT 64Hz', 'SSVEP 7.5 Hz left', 'Target'}), ...
                 [64 7.5 NaN]);

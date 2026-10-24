@@ -160,10 +160,7 @@ function seed = defaults(EEG)
         return;
     end
     labels = cellstr(string({EEG.bindesc.label}));
-    ordinary = true(1, numel(labels));
-    if isfield(EEG.bindesc, 'combo')
-        ordinary = cellfun(@isempty, {EEG.bindesc.combo});
-    end
+    ordinary = ~TransTools.IsComboBin(EEG.bindesc);
     hz = TransTools.FrequencyFromLabel(labels);
     hz(~ordinary) = NaN;
     freqs = unique(hz(isfinite(hz)), 'stable');
